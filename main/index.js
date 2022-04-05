@@ -24,16 +24,6 @@ function handleInput(event) {
     }
 }
 
-function handleDelete(event) {
-    let id = event.target.dataset.id;
-    store.dispatch({type:"delete",id})
-}
-
-function handleToggle(event) {
-    let id = event.target.dataset.id;
-    store.dispatch({type:"toggle",id});
-}
-
 function createUI(data, rootElm) {
     rootElm.innerHTML = "";
     
@@ -44,9 +34,9 @@ function createUI(data, rootElm) {
         div.classList.add(`name`);
         let inputCheck = document.createElement(`input`);
         inputCheck.type = "checkbox";
-
-        inputCheck.setAttribute(`data-id`, `${index}`);
-        inputCheck.addEventListener(`input`, handleToggle);
+        inputCheck.addEventListener(`input`, () => {
+            store.dispatch({type:"toggle",id:index});
+        });
         inputCheck.checked = todo.isDone;
 
         let p = document.createElement(`p`);
@@ -55,17 +45,15 @@ function createUI(data, rootElm) {
         span.classList.add(`spantext`);
         span.innerText = "X";
 
-        span.addEventListener(`click`, (event) => {
-            handleDelete(event)
+        span.addEventListener(`click`, () => {
+            store.dispatch({type:"delete",id:index})
         });
-        span.setAttribute(`data-id`, `${index}`);
 
         div.append(inputCheck, p);
         li.append(div, span);
 
         rootElm.append(li);
     })
-    localStorage.setItem(`todos`, JSON.stringify(allTodos));
 }
 
 createUI(allTodos, ul);

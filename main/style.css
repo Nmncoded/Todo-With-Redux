@@ -113,6 +113,7 @@ ul .li:last-child {
     font-size: 22px;
     font-weight: 550;
     display: none;
+    cursor: pointer;
 }
 .li:hover .spantext {
     display: inline-block;
